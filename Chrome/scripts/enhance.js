@@ -3,11 +3,12 @@ document.getElementById("navFrame").onload = function() {
 		var logo = frames[0].window.document.getElementsByClassName("brandingImgWrap");
 		if(logo.length > 0) {
 			logo = logo[0].children[0]
+			var homepageURL = logo.href.split("?", 1);
 			logo.target = "";
 			logo.href = "#";
 			logo.addEventListener("mouseup", function(e) {
 				e.preventDefault();
-				location.reload();
+				location.href = homepageURL;
 			});
 		}
 	}, 1000);
@@ -33,13 +34,18 @@ contentFrame.onload = function() {
 			var year = new Date().getFullYear();
 			var month = parseInt(new Date().getMonth() / 4) + 1;
 			var section = year + "" + month;
-			courses = courses.querySelectorAll("table.toolpad:not([id]) .cpright a:not([title^='" + section + "'])");
-			var courseParents = [];
+			courses = courses.querySelectorAll("table.toolpad:not([id]) .cpright a");
+			var courseParents = [], count = 0;;
 			for(var i = 0; i < courses.length; i++) {
-				var parent = courses[i].parentElement.parentElement.parentElement.parentElement.parentElement;
-				hiddenCourses.appendChild(parent);
-				parent.style.display = "none";
-				courseParents[i] = parent;
+				var href = courses[i].href.substring(courses[i].href.indexOf("?") + 1);
+				courses[i].href = location.href + "?course=" + getURLQueryParameter("id", href);
+				if(courses[i].title.indexOf(section) < 0) {
+					var parent = courses[i].parentElement.parentElement.parentElement.parentElement.parentElement;
+					hiddenCourses.appendChild(parent);
+					parent.style.display = "none";
+					courseParents[count] = parent;
+					count++;
+				}
 			}
 			frames[1].window.document.querySelector("#modBody #messagetext").appendChild(hiddenCoursesContainer);
 
@@ -60,3 +66,23 @@ contentFrame.onload = function() {
 		}
 	}, 1000);
 };
+
+var query = window.location.search.substring(1);
+if(query.length > 0) {
+	var courseID = getURLQueryParameter("course", query);
+	if(courseID.length > 0) {
+		var newContentFrameURL = window.location.origin + "/webapps/blackboard/execute/launcher?type=Course&id=" + courseID;
+		contentFrame.src = newContentFrameURL;
+	}
+}
+
+function getURLQueryParameter(variable, query) {
+	var vars = query.split('&');
+	for(var i = 0; i < vars.length; i++) {
+		var pair = vars[i].split('=');
+		if(decodeURIComponent(pair[0]) == variable) {
+			return decodeURIComponent(pair[1]);
+		}
+	}
+	return "";
+}
