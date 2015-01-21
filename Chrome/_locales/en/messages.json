@@ -1,0 +1,10 @@
+{
+	"appName": {
+		"message": "Blackboard Enhancement Suite",
+		"description": "Extension Name."
+	},
+	"appDescription": {
+		"message": "Various layout and style changes intended to improve the usability of Blackboard",
+		"description": "Extension Description."
+	}
+}
