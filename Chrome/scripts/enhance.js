@@ -45,12 +45,16 @@ contentFrame.onload = function() {
 
 			revealLink.addEventListener("mouseup", function(e) {
 				e.preventDefault();
-				for(var i = 0; i < courseParents.length; i++) {
-					if(courseParents[i].style.display === "none") {
-						courseParents[i].style.display = "block"
-					} else {
-						courseParents[i].style.display = "none"
+				if(courseParents[0].style.display === "none") {
+					for(var i = 0; i < courseParents.length; i++) {
+						courseParents[i].style.display = "block";
 					}
+					revealLink.innerHTML = "Hide Past Courses";
+				} else {
+					for(var i = 0; i < courseParents.length; i++) {
+						courseParents[i].style.display = "none";
+					}
+					revealLink.innerHTML = "Show Past Courses";
 				}
 			});
 		}
