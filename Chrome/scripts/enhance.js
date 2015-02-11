@@ -35,7 +35,7 @@ contentFrame.onload = function() {
 			var month = parseInt(new Date().getMonth() / 4) + 1;
 			var section = year + "" + month;
 			courses = courses.querySelectorAll("table.toolpad:not([id]) .cpright a");
-			var courseParents = [], count = 0;;
+			var courseParents = [], count = 0;
 			for(var i = 0; i < courses.length; i++) {
 				var href = courses[i].href.substring(courses[i].href.indexOf("?") + 1);
 				courses[i].href = location.href + "?course=" + getURLQueryParameter("id", href);
@@ -47,22 +47,24 @@ contentFrame.onload = function() {
 					count++;
 				}
 			}
-			frames[1].window.document.querySelector("#modBody #messagetext").appendChild(hiddenCoursesContainer);
+			if(hiddenCourses.children.length > 0) {
+				frames[1].window.document.querySelector("#modBody #messagetext").appendChild(hiddenCoursesContainer);
 
-			revealLink.addEventListener("mouseup", function(e) {
-				e.preventDefault();
-				if(courseParents[0].style.display === "none") {
-					for(var i = 0; i < courseParents.length; i++) {
-						courseParents[i].style.display = "block";
+				revealLink.addEventListener("mouseup", function(e) {
+					e.preventDefault();
+					if(courseParents[0].style.display === "none") {
+						for(var i = 0; i < courseParents.length; i++) {
+							courseParents[i].style.display = "block";
+						}
+						revealLink.innerHTML = "Hide Past Courses";
+					} else {
+						for(var i = 0; i < courseParents.length; i++) {
+							courseParents[i].style.display = "none";
+						}
+						revealLink.innerHTML = "Show Past Courses";
 					}
-					revealLink.innerHTML = "Hide Past Courses";
-				} else {
-					for(var i = 0; i < courseParents.length; i++) {
-						courseParents[i].style.display = "none";
-					}
-					revealLink.innerHTML = "Show Past Courses";
-				}
-			});
+				});
+			}
 		}
 	}, 1000);
 };
