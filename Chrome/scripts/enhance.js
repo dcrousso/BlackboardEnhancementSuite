@@ -32,8 +32,8 @@ contentFrame.onload = function() {
 			hiddenCoursesContainer.appendChild(hiddenCourses);
 
 			var year = new Date().getFullYear();
-			var month = parseInt(new Date().getMonth() / 4) + 1;
-			var section = year + "" + month;
+			var month = new Date().getMonth(); // January is month 0
+			var section = year + "" + (month <= 5) ? 1 : ((month >= 8) ? 3: 2); // Before July = 1 and After August = 3
 			courses = courses.querySelectorAll("table.toolpad:not([id]) .cpright a");
 			var courseParents = [], count = 0;
 			for(var i = 0; i < courses.length; i++) {
