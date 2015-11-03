@@ -12,8 +12,14 @@
 	},
 	"content_scripts": [ {
 		"matches": [
-			"http://blackboard.usc.edu/*",
-			"https://blackboard.usc.edu/*"
+			"http://*.edu/*",
+			"https://*.edu/*"
+		],
+		"include_globs": [
+			"https://bb.???.edu/*",
+			"http://bb.???.edu/*",
+			"https://blackboard.???.edu/*",
+			"http://blackboard.???.edu/*"
 		],
 		"js": [ "scripts/enhance.js" ],
 		"run_at": "document_end"
