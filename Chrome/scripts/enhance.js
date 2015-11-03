@@ -79,8 +79,9 @@ addEvent(contentFrame, 'load', function() {
 	}, 1000);
 });
 
+// Make it so that when a hidden course link is followed, it is redirected to the appropriate course page 
 var query = window.location.search.substring(1);
-if(query.length > 0) {
+if (query.length > 0) {
 	var courseID = getURLQueryParameter("course", query);
 	if(courseID.length > 0) {
 		var newContentFrameURL = window.location.origin + "/webapps/blackboard/execute/launcher?type=Course&id=" + courseID;
