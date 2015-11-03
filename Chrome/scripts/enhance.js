@@ -1,9 +1,13 @@
+function addEvent(el, evt, callback) {
+	el.addEventListener(evt, callback, false);
+}
+
 // Change university logo link to use javascript and go to the main university website
 var navFrame = document.getElementById("navFrame");
 if (!navFrame) navFrame = window;
-navFrame.onload = function() {
+addEvent(navFrame, 'load', function() {
 	setTimeout(function() {
-		var logo = ((navFrame == document.body)?navFrame:navFrame.window).document.getElementsByClassName("brandingImgWrap");
+		var logo = navFrame.window.document.getElementsByClassName("brandingImgWrap");
 		if (logo.length > 0) {
 			logo = logo[0].children[0]
 			var homepageURL = logo.href.split("?", 1);
@@ -15,12 +19,15 @@ navFrame.onload = function() {
 			});
 		}
 	}, 1000);
-};
+});
 
+
+// hide old courses from the course listing
 var contentFrame = document.getElementById("contentFrame");
-contentFrame.onload = function() {
+if (!contentFrame) contentFrame = window;
+addEvent(contentFrame, 'load', function() {
 	setTimeout(function() {
-		var courses =  frames[1].window.document.getElementById("modBody");
+		var courses = contentFrame.window.document.getElementById("modBody");
 		if(courses !== null) {
 			var hiddenCoursesContainer = document.createElement("div");
 			hiddenCoursesContainer.id = "hiddenCoursesContainer";
@@ -70,7 +77,7 @@ contentFrame.onload = function() {
 			}
 		}
 	}, 1000);
-};
+});
 
 var query = window.location.search.substring(1);
 if(query.length > 0) {
