@@ -1,7 +1,10 @@
-document.getElementById("navFrame").onload = function() {
+// Change university logo link to use javascript and go to the main university website
+var navFrame = document.getElementById("navFrame");
+if (!navFrame) navFrame = window;
+navFrame.onload = function() {
 	setTimeout(function() {
-		var logo = frames[0].window.document.getElementsByClassName("brandingImgWrap");
-		if(logo.length > 0) {
+		var logo = ((navFrame == document.body)?navFrame:navFrame.window).document.getElementsByClassName("brandingImgWrap");
+		if (logo.length > 0) {
 			logo = logo[0].children[0]
 			var homepageURL = logo.href.split("?", 1);
 			logo.target = "";
