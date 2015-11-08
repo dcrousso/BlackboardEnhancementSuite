@@ -1,5 +1,5 @@
 var shared = {
 	"default_options": {
-		"forum_view": "tree"
+		"forum_view": "list"
 	}
 };
