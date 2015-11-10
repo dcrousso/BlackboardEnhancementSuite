@@ -24,7 +24,7 @@
 			"https://blackboard.???.edu/*",
 			"http://blackboard.???.edu/*"
 		],
-		"js": [ "scripts/shared.js", "scripts/enhance.js" ],
+		"js": [ "scripts/enhance.js" ],
 		"run_at": "document_end"
 	} ],
 	"options_page": "options.html",

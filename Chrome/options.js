@@ -20,7 +20,7 @@ function save_options() {
 // Update options form when options page opens
 function restore_options() {
 	// get options, or return default values if not set
-	chrome.storage.sync.get(shared.default_options, function (items) {
+	chrome.storage.sync.get(bb_values.default_options, function (items) {
 		document.getElementById('forum_view').value = items.forum_view;
 	});
 }
