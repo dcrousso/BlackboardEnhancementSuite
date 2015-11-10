@@ -19,10 +19,10 @@
 			"https://*.edu/*"
 		],
 		"include_globs": [
-			"https://bb.???.edu/*",
-			"http://bb.???.edu/*",
-			"https://blackboard.???.edu/*",
-			"http://blackboard.???.edu/*"
+			"https://bb.*.edu/*",
+			"http://bb.*.edu/*",
+			"https://blackboard.*.edu/*",
+			"http://blackboard.*.edu/*"
 		],
 		"js": [ "scripts/enhance.js" ],
 		"run_at": "document_end"
