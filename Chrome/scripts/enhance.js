@@ -89,12 +89,34 @@ if (query.length > 0) {
 	}
 
 	// If we are on a page listing discussion boards, adjust links to point to appropriate view
+	function changeLinkForumView(link, val) {
+		if (link.href.match(/[&?]forum_view=/)) {
+			link.href = dbLinks[i].href.replace(/([&?]forum_view=)[^&]*/, "$1" + val);
+		} else {
+			link.href += "&forum_view=" + val;
+		}
+
+	}
 	var action = getURLQueryParameter("action", query);
 	if (action == "list_forums") {
 		chrome.runtime.sendMessage({action: "get_forum_view"}, function (response) {
 			var dbLinks = document.querySelectorAll(".dbheading a");
 			for (var i = 0; i < dbLinks.length; i++) {
-				dbLinks[i].href += "&forum_view=" + response.forum_view;
+				changeLinkForumView(dbLinks[i], response.forum_view);
+			}
+		});
+	}
+	if (action == "list_messages") {
+		chrome.runtime.sendMessage({action: "get_forum_view"}, function (response) {
+			console.log("finding el");
+			var breadcrumbs = document.querySelectorAll(".path[role=navigation] > ol > li > a");
+			console.log("found " + breadcrumbs.length + " matching el's");
+			for (var i = 0; i < breadcrumbs.length; i++) {
+				if (breadcrumbs[i].href.indexOf("action=list_threads") != -1) {
+					console.log("found matching link!");
+					changeLinkForumView(breadcrumbs[i], response.forum_view);
+					break;
+				}
 			}
 		});
 	}
