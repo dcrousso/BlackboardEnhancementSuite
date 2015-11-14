@@ -108,12 +108,9 @@ if (query.length > 0) {
 	}
 	if (action == "list_messages") {
 		chrome.runtime.sendMessage({action: "get_forum_view"}, function (response) {
-			console.log("finding el");
 			var breadcrumbs = document.querySelectorAll(".path[role=navigation] > ol > li > a");
-			console.log("found " + breadcrumbs.length + " matching el's");
 			for (var i = 0; i < breadcrumbs.length; i++) {
 				if (breadcrumbs[i].href.indexOf("action=list_threads") != -1) {
-					console.log("found matching link!");
 					changeLinkForumView(breadcrumbs[i], response.forum_view);
 					break;
 				}
