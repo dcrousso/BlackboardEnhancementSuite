@@ -1,11 +1,6 @@
-function addEvent(el, evt, callback) {
-	el.addEventListener(evt, callback, false);
-}
-
 // Change university logo link to use javascript and go to the main university website
-var navFrame = document.getElementById("navFrame");
-if (!navFrame) navFrame = window;
-addEvent(navFrame, 'load', function() {
+var navFrame = document.getElementById("navFrame") || window;
+navFrame.addEventListener("load", function() {
 	setTimeout(function() {
 		var logo = navFrame.window.document.getElementsByClassName("brandingImgWrap");
 		if (logo.length > 0) {
@@ -23,9 +18,8 @@ addEvent(navFrame, 'load', function() {
 
 
 // hide old courses from the course listing
-var contentFrame = document.getElementById("contentFrame");
-if (!contentFrame) contentFrame = window;
-addEvent(contentFrame, 'load', function() {
+var contentFrame = document.getElementById("contentFrame") || window;
+contentFrame.addEventListener("load", function() {
 	setTimeout(function() {
 		var courses = contentFrame.window.document.getElementById("modBody");
 		if(courses !== null) {
@@ -121,9 +115,9 @@ if (query.length > 0) {
 
 // helper function
 function getURLQueryParameter(variable, query) {
-	var vars = query.split('&');
+	var vars = query.split("&");
 	for(var i = 0; i < vars.length; i++) {
-		var pair = vars[i].split('=');
+		var pair = vars[i].split("=");
 		if(decodeURIComponent(pair[0]) == variable) {
 			return decodeURIComponent(pair[1]);
 		}
