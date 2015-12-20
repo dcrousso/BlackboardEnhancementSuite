@@ -79,16 +79,47 @@ addEvent(contentFrame, 'load', function() {
 	}, 1000);
 });
 
-// Make it so that when a hidden course link is followed, it is redirected to the appropriate course page 
 var query = window.location.search.substring(1);
 if (query.length > 0) {
+	// Make it so that when a hidden course link is followed, it is redirected to the appropriate course page 
 	var courseID = getURLQueryParameter("course", query);
-	if(courseID.length > 0) {
+	if (courseID.length > 0) {
 		var newContentFrameURL = window.location.origin + "/webapps/blackboard/execute/launcher?type=Course&id=" + courseID;
 		contentFrame.src = newContentFrameURL;
 	}
+
+	// If we are on a page listing discussion boards, adjust links to point to appropriate view
+	function changeLinkForumView(link, val) {
+		if (link.href.match(/[&?]forum_view=/)) {
+			link.href = dbLinks[i].href.replace(/([&?]forum_view=)[^&]*/, "$1" + val);
+		} else {
+			link.href += "&forum_view=" + val;
+		}
+
+	}
+	var action = getURLQueryParameter("action", query);
+	if (action == "list_forums") {
+		chrome.runtime.sendMessage({action: "get_forum_view"}, function (response) {
+			var dbLinks = document.querySelectorAll(".dbheading a");
+			for (var i = 0; i < dbLinks.length; i++) {
+				changeLinkForumView(dbLinks[i], response.forum_view);
+			}
+		});
+	}
+	if (action == "list_messages") {
+		chrome.runtime.sendMessage({action: "get_forum_view"}, function (response) {
+			var breadcrumbs = document.querySelectorAll(".path[role=navigation] > ol > li > a");
+			for (var i = 0; i < breadcrumbs.length; i++) {
+				if (breadcrumbs[i].href.indexOf("action=list_threads") != -1) {
+					changeLinkForumView(breadcrumbs[i], response.forum_view);
+					break;
+				}
+			}
+		});
+	}
 }
 
+// helper function
 function getURLQueryParameter(variable, query) {
 	var vars = query.split('&');
 	for(var i = 0; i < vars.length; i++) {
