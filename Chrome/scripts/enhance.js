@@ -38,11 +38,12 @@ contentFrame.addEventListener("load", function() {
 			var year = new Date().getFullYear();
 			var month = new Date().getMonth(); // January is month 0
 			var section = year + "" + (month <= 5) ? 1 : ((month >= 8) ? 3: 2); // Before July = 1 and After August = 3
+
 			courses = courses.querySelectorAll("table.toolpad:not([id]) .cpright a");
 			var courseParents = [], count = 0;
 			for(var i = 0; i < courses.length; i++) {
 				var href = courses[i].href.substring(courses[i].href.indexOf("?") + 1);
-				courses[i].href = location.href + "?course=" + getURLQueryParameter("id", href);
+				courses[i].href = location.origin + "/webapps/blackboard/execute/courseMain?course_id=" + getURLQueryParameter("id", href);
 				if(courses[i].title.indexOf(section) < 0) {
 					var parent = courses[i].parentElement.parentElement.parentElement.parentElement.parentElement;
 					hiddenCourses.appendChild(parent);
