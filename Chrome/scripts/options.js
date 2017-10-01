@@ -15,20 +15,21 @@ function save_options() {
 		data.errors = [];
 		nextOperation();
 	}).operation(function(nextOperation, data) {
-		var blackboard_domain = document.getElementById("blackboard_domain").value;
+		var blackboard_domains = document.getElementById("blackboard_domains").value.split("\n");
+		var origins = blackboard_domains.map((x) => [
+			           "https://" + x + "/",
+			           "http://" + x + "/"
+			         ]).reduce((a,b) => a.concat(b));
+		console.log(origins);
 		chrome.permissions.request({
-			permissions: ['tabs'],
-			origins: ["https://" + blackboard_domain + "/",
-			          "http://" + blackboard_domain + "/"]
+			permissions: ["tabs"],
+			origins: origins
 		}, function(granted) {
-			chrome.permissions.getAll(function(permissions) {
-				console.log(permissions);
-			});
 			if (chrome.runtime.lastError) {
 				data.errors.push(chrome.runtime.lastError.message);
 			}
 			if (granted) {
-				data.sync.blackboard_domain = blackboard_domain;
+				data.sync.blackboard_domains = blackboard_domains;
 			}
 			nextOperation();
 		});
@@ -53,7 +54,7 @@ function restore_options() {
 	// get options, or return default values if not set
 	chrome.storage.sync.get(bb_values.default_options, function (items) {
 		document.getElementById("forum_view").value = items.forum_view;
-		document.getElementById("blackboard_domain").value = items.blackboard_domain;
+		document.getElementById("blackboard_domains").value = items.blackboard_domains.join("\n");
 	});
 }
 
