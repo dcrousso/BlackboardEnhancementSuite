@@ -9,3 +9,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		return true;
 	}
 });
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+	chrome.storage.sync.get(bb_values.default_options, function(items) {
+		if (items.blackboard_domain != bb_values.default_options.blackboard_domain
+		    && changeInfo.status == "complete") {
+			chrome.permissions.contains({
+				permissions: ['tabs'],
+				origins: [tab.url]
+			}, function(does) {
+				if (does) chrome.tabs.executeScript(tabId, {file: "scripts/enhance.js"});
+			});
+		}
+	});
+});
