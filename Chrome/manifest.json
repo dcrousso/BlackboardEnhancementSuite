@@ -13,23 +13,12 @@
 		"48": "images/icon-48.png",
 		"128": "images/icon-128.png"
 	},
-	"content_scripts": [
-		{
-			"matches": [
-				"http://*.edu/*",
-				"https://*.edu/*"
-			],
-			"include_globs": [
-				"https://bb.*.edu/*",
-				"http://bb.*.edu/*",
-				"https://blackboard.*.edu/*",
-				"http://blackboard.*.edu/*"
-			],
-			"js": [ "scripts/enhance.js" ],
-			"run_at": "document_end"
-		}
-	],
 	"options_page": "html/options.html",
+	"optional_permissions": [
+	  "tabs",
+	  "http://*.edu/*",
+	  "https://*.edu/*"
+	],
 	"background": {
 		"page": "html/background.html",
 		"persistent": false
